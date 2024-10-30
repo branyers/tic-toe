@@ -12,28 +12,35 @@ const TURN = {
 const WINNER_COMBINATIONS = [
   // Filas
   [0, 1, 2, 3],
-  [4, 5, 6, 7],
-  [8, 9, 10, 11],
-  [12, 13, 14, 15],
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [6, 7, 8, 9],
+  [10, 11, 12, 13],
+  [11, 12, 13, 14],
+  [15, 16, 17, 18],
+  [16, 17, 18, 19],
   // Columnas
-  [0, 4, 8, 12],
-  [1, 5, 9, 13],
-  [2, 6, 10, 14],
-  [3, 7, 11, 15],
-  // Diagonales
   [0, 5, 10, 15],
-  [3, 6, 9, 12],
+  [1, 6, 11, 16],
+  [2, 7, 12, 17],
+  [3, 8, 13, 18],
+  [4, 9, 14, 19],
+  // Diagonales
+  [0, 6, 12, 18],
+  [4, 8, 12, 16],
+  [3, 7, 11, 15],
+  [19, 13, 7, 1],
 ];
 
 function App() {
-  const [board, setBoard] = useState(Array(16).fill(null));
+  const [board, setBoard] = useState(Array(20).fill(null));
   const [turn, setTurn] = useState(TURN.X);
   const [winner, setWinner] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingMove, setPendingMove] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Effecto para aplicar la clase de dark mode al body
+  // Efecto para aplicar la clase de dark mode al body
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark');
@@ -60,7 +67,7 @@ function App() {
   };
 
   const resetGame = () => {
-    setBoard(Array(16).fill(null));
+    setBoard(Array(20).fill(null));
     setTurn(TURN.X);
     setWinner(null);
     window.location.reload();
@@ -87,8 +94,12 @@ function App() {
     if (newWinner) {
       setWinner(newWinner);
       triggerConfetti();
+      setIsModalOpen(false); // Cerrar el modal si hay un ganador
     } else if (checkEndGame(newBoard)) {
       setWinner(false);
+      setIsModalOpen(false); // Cerrar el modal si hay empate
+    } else {
+      setIsModalOpen(false); // Cerrar el modal si no hay ganador
     }
   };
 
