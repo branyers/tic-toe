@@ -10,26 +10,26 @@ const TURN = {
 };
 
 const WINNER_COMBINATIONS = [
-  // Filas
-  [0, 1, 2, 3],
-  [1, 2, 3, 4],
-  [5, 6, 7, 8],
-  [6, 7, 8, 9],
-  [10, 11, 12, 13],
-  [11, 12, 13, 14],
-  [15, 16, 17, 18],
-  [16, 17, 18, 19],
-  // Columnas
-  [0, 5, 10, 15],
-  [1, 6, 11, 16],
-  [2, 7, 12, 17],
-  [3, 8, 13, 18],
-  [4, 9, 14, 19],
-  // Diagonales
-  [0, 6, 12, 18],
-  [4, 8, 12, 16],
-  [3, 7, 11, 15],
-  [19, 13, 7, 1],
+  // Filas (4 filas de 5 posiciones cada una)
+  [0, 1, 2, 3, 4],
+  [5, 6, 7, 8, 9],
+  [10, 11, 12, 13, 14],
+  [15, 16, 17, 18, 19],
+
+  // Columnas (5 columnas de 4 posiciones cada una)
+  [0, 5, 10, 15], // Columna 1
+  [1, 6, 11, 16], // Columna 2
+  [2, 7, 12, 17], // Columna 3
+  [3, 8, 13, 18], // Columna 4
+  [4, 9, 14, 19], // Columna 5
+
+  // Diagonales principales (de izquierda a derecha)
+  [0, 6, 12, 18],  // Diagonal principal 1
+  [5, 11, 17, 19], // Diagonal principal 2
+
+  // Diagonales inversas (de derecha a izquierda)
+  [4, 8, 12, 16],  // Diagonal inversa 1
+  [3, 7, 11, 15],  // Diagonal inversa 2
 ];
 
 function App() {
@@ -53,14 +53,11 @@ function App() {
 
   const checkWinner = (boardToCheck) => {
     for (let combo of WINNER_COMBINATIONS) {
-      const [a, b, c, d] = combo;
-      if (
-        boardToCheck[a] &&
-        boardToCheck[a] === boardToCheck[b] &&
-        boardToCheck[a] === boardToCheck[c] &&
-        boardToCheck[a] === boardToCheck[d]
-      ) {
-        return boardToCheck[a];
+      const values = combo.map(index => boardToCheck[index]);
+      
+      // Verificar que todos los valores sean iguales y no sean null
+      if (values.every(val => val !== null && val === values[0])) {
+        return values[0]; // Retorna el ganador ("X" o "O")
       }
     }
     return null;
@@ -94,18 +91,18 @@ function App() {
     if (newWinner) {
       setWinner(newWinner);
       triggerConfetti();
-      setIsModalOpen(false); // Cerrar el modal si hay un ganador
+      setIsModalOpen(false);
     } else if (checkEndGame(newBoard)) {
       setWinner(false);
-      setIsModalOpen(false); // Cerrar el modal si hay empate
+      setIsModalOpen(false);
     } else {
-      setIsModalOpen(false); // Cerrar el modal si no hay ganador
+      setIsModalOpen(false);
     }
   };
 
   const triggerConfetti = () => {
-    const end = Date.now() + (3 * 1000); // Confeti por 3 segundos
-    const colors = ['#bb0000', '#ffffff']; // Colores personalizados
+    const end = Date.now() + (3 * 1000);
+    const colors = ['#bb0000', '#ffffff'];
 
     (function frame() {
       confetti({
