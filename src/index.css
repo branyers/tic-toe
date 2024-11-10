@@ -1,190 +1,4 @@
-/* :root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-}
-
-body {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.board {
-  width: fit-content;
-  margin: 40px auto;
-  text-align: center;
-}
-
-.board h1 {
-  color: #eee;
-  margin-bottom: 16px;
-}
-
-.board button {
-  padding: 8px 12px;
-  margin: 25px;
-  background: transparent;
-  border: 2px solid #eee;
-  color: #eee;
-  width: 100px;
-  border-radius: 5px;
-  transition: 0.2s;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.board button:hover {
-  background: #eee;
-  color: #222;
-}
-
-.board .game {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.turn {
-  display: flex;
-  justify-content: center;
-  margin: 15px auto;
-  width: fit-content;
-  position: relative;
-  border-radius: 10px;
-}
-
-.turn .square,
-.winner .square {
-  width: 70px;
-  height: 70px;
-  pointer-events: none;
-  border-color: transparent;
-}
-
-.square.is-selected {
-  color: #fff;
-  background: #09f;
-}
-
-.winner {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  display: grid;
-  place-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.winner .text {
-  background: #111;
-  height: 300px;
-  width: 320px;
-  border: 2px solid #eee;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-
-.winner .win {
-  margin: 0 auto;
-  width: fit-content;
-  border: 2px solid #eee;
-  border-radius: 10px;
-  display: flex;
-  gap: 15px;
-}
-
-.square {
-  width: 100px;
-  height: 100px;
-  border: 2px solid #eee;
-  border-radius: 5px;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  font-size: 48px;
-}
-
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: #fff; 
-  color: #000; 
-  padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-
-
-
-.answers button {
-  margin: 5px 0;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff; 
-  color: #000; 
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.answers button:hover {
-  background-color: #f4f6f7;
-}
-
-button {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  color: #000; 
-}
-
-.category-button {
-  color: black; 
-  background-color: transparent; 
-  border: none; 
-  cursor: pointer; 
-}
-
-.category-button:hover {
-  opacity: 0.8; 
-}
- */
-
-
- :root {
+:root {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -201,19 +15,22 @@ body {
   margin: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
   min-width: 320px;
   min-height: 100vh;
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: hidden; /* Evita overflow global */
+  background-color: white;
 }
 
 .light {
-  background-color: white; /* Fondo blanco */
-  color: black; /* Texto negro */
+  background-color: white;
+  color: black;
 }
 
 .dark {
-  background-color: #333; /* Fondo oscuro */
-  color: white; /* Texto blanco */
+  background-color: #333;
+  color: white;
 }
 
 * {
@@ -223,9 +40,11 @@ body {
 }
 
 .board {
-  width: fit-content;
+  width: 100%; /* Asegura que la tabla de juego ocupe todo el ancho disponible */
+  max-width: 600px; /* Limita el ancho máximo de la tabla */
   margin: 40px auto;
   text-align: center;
+  overflow: hidden;
 }
 
 .board h1 {
@@ -253,23 +72,23 @@ button {
 }
 
 .light .reset-button, .light .toggle {
-  color: black; /* Texto negro para el modo claro */
-  background-color: #e0e0e0; /* Fondo gris claro para el modo claro */
+  color: black;
+  background-color: #e0e0e0;
 }
 
 .light .reset-button:hover, .light .toggle:hover {
-  background-color: #d0d0d0; 
-  color: #222; 
+  background-color: #d0d0d0;
+  color: #222;
 }
 
 .dark .reset-button, .dark .toggle {
-  color: white; /* Texto blanco para el modo oscuro */
-  background-color: #555; /* Fondo gris oscuro para el modo oscuro */
+  color: white;
+  background-color: #555;
 }
 
 .dark .reset-button:hover, .dark .toggle:hover {
-  background-color: #666; /* Un poco más claro en hover */
-  color: #fff; /* Texto blanco en hover */
+  background-color: #666;
+  color: #fff;
 }
 
 .board .game {
@@ -296,10 +115,8 @@ button {
   place-items: center;
   cursor: pointer;
   font-size: 48px;
-  background-color: #9b9393; 
+  background-color: #9b9393;
 }
-
-
 
 .winner {
   position: absolute;
@@ -312,10 +129,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .text {
   text-align: center;
+  max-width: 90%; /* Limita el ancho de la ventana del ganador */
+  word-wrap: break-word;
 }
 
 .answers {
@@ -326,9 +146,94 @@ button {
   align-items: center;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Elimina el scroll */
-  height: 100%; /* Asegura que el cuerpo ocupe todo el alto */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow: hidden;
+}
+
+.answers button {
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.answers button:hover {
+  background-color: #f4f6f7;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  color: #000;
+}
+
+.category-button {
+  color: black;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.category-button:hover {
+  opacity: 0.8;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+  .board {
+    width: 90%; /* Asegura que la tabla de juego sea más pequeña en dispositivos móviles */
+  }
+
+  .modal-content {
+    width: 90%; /* Ajusta el tamaño del modal en dispositivos móviles */
+  }
+
+  .square {
+    width: 80px;
+    height: 80px;
+    font-size: 36px; /* Reduce el tamaño del texto en los cuadrados */
+  }
+
+  .winner .text {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .board {
+    width: 100%; /* Ocupa todo el ancho en pantallas muy pequeñas */
+  }
+
+  .square {
+    width: 70px;
+    height: 70px;
+    font-size: 32px;
+  }
 }
