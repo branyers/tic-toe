@@ -325,3 +325,10 @@ button {
   justify-content: center;
   align-items: center;
 }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Elimina el scroll */
+  height: 100%; /* Asegura que el cuerpo ocupe todo el alto */
+}
