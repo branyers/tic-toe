@@ -3,12 +3,13 @@ import React from 'react';
 // Componente del filtro de categorías
 export const CategoryFilter = ({ setSelectedCategory, startGame }) => {
   const categories = [
-    { label: 'Geografía', value: 'geography' },
-    { label: 'Arte y Literatura', value: 'arts%26literature' },
-    { label: 'Entretenimiento', value: 'entertainment' },
-    { label: 'Ciencia y Naturaleza', value: 'science%26nature' },
-    { label: 'Deportes y Ocio', value: 'sports%26leisure' },
-    { label: 'Historia', value: 'history' }
+    { label: 'Geografía 🌎', value: 'geography' },
+    { label: 'Arte y Literatura 📚', value: 'arts%26literature' },
+    { label: 'Entretenimiento 🎮', value: 'entertainment' },
+    { label: 'Ciencia y Naturaleza 🧪', value: 'science%26nature' },
+    { label: 'Deportes y Ocio 🏈', value: 'sports%26leisure' },
+    { label: 'Historia 🇰🇬', value: 'history' },
+    { label: 'Para Pro 💪🏆', value: 'pro' } 
   ];
 
   // Estilos para los botones

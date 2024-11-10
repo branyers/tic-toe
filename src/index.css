@@ -146,11 +146,7 @@ body {
   text-align: center;
 }
 
-.answers {
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-}
+
 
 .answers button {
   margin: 5px 0;
@@ -320,4 +316,12 @@ button {
 
 .text {
   text-align: center;
+}
+
+.answers {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  justify-content: center;
+  align-items: center;
 }
