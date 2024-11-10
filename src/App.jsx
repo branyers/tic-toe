@@ -10,30 +10,27 @@ const TURN = {
 };
 
 const WINNER_COMBINATIONS = [
-  // Filas (4 filas de 5 posiciones cada una)
+  // Filas (5 filas de 5 posiciones cada una)
   [0, 1, 2, 3, 4],
   [5, 6, 7, 8, 9],
   [10, 11, 12, 13, 14],
   [15, 16, 17, 18, 19],
+  [20, 21, 22, 23, 24],
 
-  // Columnas (5 columnas de 4 posiciones cada una)
-  [0, 5, 10, 15], // Columna 1
-  [1, 6, 11, 16], // Columna 2
-  [2, 7, 12, 17], // Columna 3
-  [3, 8, 13, 18], // Columna 4
-  [4, 9, 14, 19], // Columna 5
+  // Columnas (5 columnas de 5 posiciones cada una)
+  [0, 5, 10, 15, 20], // Columna 1
+  [1, 6, 11, 16, 21], // Columna 2
+  [2, 7, 12, 17, 22], // Columna 3
+  [3, 8, 13, 18, 23], // Columna 4
+  [4, 9, 14, 19, 24], // Columna 5
 
   // Diagonales principales (de izquierda a derecha)
-  [0, 6, 12, 18],  // Diagonal principal 1
-  [5, 11, 17, 19], // Diagonal principal 2
-
-  // Diagonales inversas (de derecha a izquierda)
-  [4, 8, 12, 16],  // Diagonal inversa 1
-  [3, 7, 11, 15],  // Diagonal inversa 2
+  [0, 6, 12, 18, 24],  // Diagonal principal 1
+  [4, 8, 12, 16, 20],  // Diagonal principal inversa
 ];
 
 function App() {
-  const [board, setBoard] = useState(Array(20).fill(null));
+  const [board, setBoard] = useState(Array(25).fill(null));
   const [turn, setTurn] = useState(TURN.X);
   const [winner, setWinner] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,7 +61,7 @@ function App() {
   };
 
   const resetGame = () => {
-    setBoard(Array(20).fill(null));
+    setBoard(Array(25).fill(null));
     setTurn(TURN.X);
     setWinner(null);
     window.location.reload();
