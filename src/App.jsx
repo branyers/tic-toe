@@ -10,23 +10,18 @@ const TURN = {
 };
 
 const WINNER_COMBINATIONS = [
-  // Filas (5 filas de 5 posiciones cada una)
   [0, 1, 2, 3, 4],
   [5, 6, 7, 8, 9],
   [10, 11, 12, 13, 14],
   [15, 16, 17, 18, 19],
   [20, 21, 22, 23, 24],
-
-  // Columnas (5 columnas de 5 posiciones cada una)
-  [0, 5, 10, 15, 20], // Columna 1
-  [1, 6, 11, 16, 21], // Columna 2
-  [2, 7, 12, 17, 22], // Columna 3
-  [3, 8, 13, 18, 23], // Columna 4
-  [4, 9, 14, 19, 24], // Columna 5
-
-  // Diagonales principales (de izquierda a derecha)
-  [0, 6, 12, 18, 24],  // Diagonal principal 1
-  [4, 8, 12, 16, 20],  // Diagonal principal inversa
+  [0, 5, 10, 15, 20],
+  [1, 6, 11, 16, 21],
+  [2, 7, 12, 17, 22],
+  [3, 8, 13, 18, 23],
+  [4, 9, 14, 19, 24],
+  [0, 6, 12, 18, 24],
+  [4, 8, 12, 16, 20],
 ];
 
 function App() {
@@ -37,24 +32,42 @@ function App() {
   const [pendingMove, setPendingMove] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Efecto para aplicar la clase de dark mode al body
+  // Estados para los puntajes
+  const [scores, setScores] = useState({
+    X: 0,
+    O: 0
+  });
+
+  // Precargar sonidos
+  const incorrectSound = new Audio('src/sounds/incorrect.mp3');
+  const correctSound = new Audio('src/sounds/correct.mp3');
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true') {
+      setIsDarkMode(true);
+    } else {
+      setIsDarkMode(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark');
       document.body.classList.remove('light');
+      localStorage.setItem('darkMode', 'true');
     } else {
       document.body.classList.add('light');
       document.body.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
     }
   }, [isDarkMode]);
 
   const checkWinner = (boardToCheck) => {
     for (let combo of WINNER_COMBINATIONS) {
       const values = combo.map(index => boardToCheck[index]);
-      
-      // Verificar que todos los valores sean iguales y no sean null
       if (values.every(val => val !== null && val === values[0])) {
-        return values[0]; // Retorna el ganador ("X" o "O")
+        return values[0];
       }
     }
     return null;
@@ -78,11 +91,24 @@ function App() {
   };
 
   const handleCorrectAnswer = () => {
+    try {
+      correctSound.currentTime = 0;
+      correctSound.play();
+    } catch (error) {
+      console.error('Error al reproducir el sonido correcto:', error);
+    }
+
     const newBoard = [...board];
     newBoard[pendingMove] = turn;
     setBoard(newBoard);
     const newTurn = turn === TURN.X ? TURN.O : TURN.X;
     setTurn(newTurn);
+
+    // Actualizar el puntaje del jugador que respondió correctamente
+    setScores((prevScores) => ({
+      ...prevScores,
+      [turn]: prevScores[turn] + 1,
+    }));
 
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
@@ -124,12 +150,20 @@ function App() {
   };
 
   const handleIncorrectAnswer = () => {
+    try {
+      incorrectSound.currentTime = 0;
+      incorrectSound.play();
+    } catch (error) {
+      console.error('Error al reproducir el sonido incorrecto:', error);
+    }
+
     const newTurn = turn === TURN.X ? TURN.O : TURN.X;
     setTurn(newTurn);
+    setIsModalOpen(false);
   };
 
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsDarkMode(prevState => !prevState);
   };
 
   return (
@@ -148,9 +182,16 @@ function App() {
           ))}
         </section>
 
-        <section className="turn" style={{display:"flex", gap:"10px"}}>
-          <Squared isSelected={turn === TURN.X} color="blue">{TURN.X}</Squared>
-          <Squared isSelected={turn === TURN.O} color="red">{TURN.O}</Squared>
+        <section className="turn" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px", width: "100%", marginTop: "20px", marginLeft: "40px" }}>
+          {/* Mostrar los turnos y puntajes al lado */}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Squared isSelected={turn === TURN.X} color="blue">{TURN.X}</Squared>
+            <span style={{ marginLeft: "10px", fontSize: "18px" }}>Puntos: {scores.X}</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Squared isSelected={turn === TURN.O} color="red">{TURN.O}</Squared>
+            <span style={{ marginLeft: "10px", fontSize: "18px" }}>Puntos: {scores.O}</span>
+          </div>
         </section>
 
         {winner !== null && (

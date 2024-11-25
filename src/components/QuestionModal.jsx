@@ -16,6 +16,8 @@ export const QuestionModal = ({ isOpen, onClose, onCorrectAnswer, onIncorrectAns
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [hasFetched, setHasFetched] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30); // Tiempo para cada pregunta
+  const [animationPercentage, setAnimationPercentage] = useState(100); // Para el borde inferior dinámico
 
   useEffect(() => {
     if (isOpen && isGameStarted && !hasFetched && selectedCategory) {
@@ -93,6 +95,38 @@ export const QuestionModal = ({ isOpen, onClose, onCorrectAnswer, onIncorrectAns
     setQuestionData(null);
   };
 
+  // Temporizador con actualización dinámica del porcentaje
+  useEffect(() => {
+    if (!isOpen || !isGameStarted || !questionData) return;
+
+    setTimeLeft(30);
+    setAnimationPercentage(100);
+
+    const interval = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(interval);
+          handleTimeOut(); // Manejar el tiempo agotado
+          return 0;
+        }
+        const newPercentage = ((prevTime - 1) / 30) * 100;
+        setAnimationPercentage(newPercentage); // Actualizar porcentaje para el borde inferior
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Limpiar intervalo al desmontar
+  }, [isOpen, isGameStarted, questionData]);
+
+  const handleTimeOut = () => {
+    // Lógica para manejar el tiempo agotado
+    onIncorrectAnswer();
+    setHasFetched(false);
+    setSelectedAnswer('');
+    setQuestionData(null);
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   if (!isGameStarted) {
@@ -123,9 +157,23 @@ export const QuestionModal = ({ isOpen, onClose, onCorrectAnswer, onIncorrectAns
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: '#fff', // Fondo interno
+          borderRadius: '10px',
+          padding: '20px',
+        }}
+      >
         <h2>{questionData.question}</h2>
-        <div className="answers">
+        <div
+          className="answers"
+          style={{
+            padding: '10px', // Asegura que las respuestas no se solapen con el borde
+            position: 'relative', // Necesario para posicionar el borde inferior
+          }}
+        >
           {allAnswers.map((answer, index) => (
             <button
               key={index}
@@ -134,7 +182,7 @@ export const QuestionModal = ({ isOpen, onClose, onCorrectAnswer, onIncorrectAns
                 backgroundColor: selectedAnswer === answer ? '#f4f6f7' : '#fff',
                 color: '#000',
                 borderColor: selectedAnswer === answer ? '#000' : '#ccc',
-                padding: '10px', 
+                padding: '10px',
                 textAlign: 'center',
                 width: '100%',
                 maxWidth: '300px',
@@ -149,13 +197,26 @@ export const QuestionModal = ({ isOpen, onClose, onCorrectAnswer, onIncorrectAns
             </button>
           ))}
         </div>
-        <button 
-          onClick={handleSubmit} 
+        {/* Borde inferior animado */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '5px', // Altura del borde inferior
+            background: `linear-gradient(90deg, red ${100 - animationPercentage}%, green ${animationPercentage}%)`, // Fondo dinámico
+            borderRadius: '5px',
+          }}
+        ></div>
+        <p>Tiempo restante: {timeLeft}s</p>
+        <button
+          onClick={handleSubmit}
           disabled={!selectedAnswer}
-          style={{ 
+          style={{
             color: '#040101',
             opacity: !selectedAnswer ? 0.5 : 1,
-            cursor: !selectedAnswer ? 'not-allowed' : 'pointer'
+            cursor: !selectedAnswer ? 'not-allowed' : 'pointer',
           }}
         >
           Submit

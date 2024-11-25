@@ -262,3 +262,34 @@ button {
 .toggle {
   margin-top: 20px;
 }
+
+.border-gradient-100 {
+  border: 5px solid green;
+}
+.border-gradient-50 {
+  border: 5px solid yellow;
+}
+.border-gradient-0 {
+  border: 5px solid red;
+}
+
+.modal {
+  position: relative;
+  background: white;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  border-radius: 8px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
