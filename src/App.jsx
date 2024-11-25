@@ -182,7 +182,7 @@ function App() {
           ))}
         </section>
 
-        <section className="turn" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px", width: "100%", marginTop: "20px", marginLeft: "40px" }}>
+        <section className="turn" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "20px", width: "100%"}}>
           {/* Mostrar los turnos y puntajes al lado */}
           <div style={{ display: "flex", alignItems: "center" }}>
             <Squared isSelected={turn === TURN.X} color="blue">{TURN.X}</Squared>

@@ -263,33 +263,48 @@ button {
   margin-top: 20px;
 }
 
-.border-gradient-100 {
-  border: 5px solid green;
-}
-.border-gradient-50 {
-  border: 5px solid yellow;
-}
-.border-gradient-0 {
-  border: 5px solid red;
+@viewport {
+  width: device-width;
+  zoom: 1;
 }
 
-.modal {
-  position: relative;
-  background: white;
-  padding: 20px;
-  width: 300px;
-  text-align: center;
-  border-radius: 8px;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
+/* Media Queries */
+@media (max-width: 768px) {
+  .game {
+    gap: 8px;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .square {
+    font-size: 1.8rem;
+  }
+  button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .square {
+    font-size: 1.5rem;
+  }
+  button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 320px) {
+  .game {
+    grid-template-columns: 1fr;
+  }
+  .square {
+    font-size: 1.2rem;
+  }
+  button {
+    font-size: 0.7rem;
+    padding: 4px 8px;
   }
 }
