@@ -39,8 +39,8 @@ function App() {
   });
 
   // Precargar sonidos
-  const incorrectSound = new Audio('src/sounds/incorrect.mp3');
-  const correctSound = new Audio('src/sounds/correct.mp3');
+  const incorrectSound = new Audio('/sounds/incorrect.mp3');
+  const correctSound = new Audio('/sounds/correct.mp3');
 
   useEffect(() => {
     const savedMode = localStorage.getItem('darkMode');
